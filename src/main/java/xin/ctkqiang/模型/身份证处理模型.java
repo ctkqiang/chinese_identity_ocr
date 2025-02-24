@@ -8,6 +8,8 @@ import org.opencv.core.Size;
 import org.opencv.imgcodecs.Imgcodecs;
 import org.opencv.imgproc.Imgproc;
 
+import net.sourceforge.tess4j.Tesseract;
+import net.sourceforge.tess4j.TesseractException;
 import xin.ctkqiang.控制器.日志记录器;
 
 /**
@@ -15,6 +17,8 @@ import xin.ctkqiang.控制器.日志记录器;
  * 包括图像的处理和光学字符识别（OCR）操作。
  */
 public class 身份证处理模型 {
+    private final String 模型语言 = "chi_sim";
+
     /**
      * 该方法使用OpenCV库对输入的身份证图像进行一系列处理操作，以提高图像质量，便于后续的OCR识别。
      * 
@@ -80,5 +84,57 @@ public class 身份证处理模型 {
         Imgcodecs.imwrite(处理后图像路径, 二值化图像);
 
         return 处理后图像路径;
+    }
+
+    /**
+     * 该方法使用Tesseract库对处理后的图像进行光学字符识别（OCR）操作。
+     * 
+     * @param 处理后图像路径 处理后的身份证图像文件的存储路径。
+     * @return 从图像中识别出的文本内容，如果识别过程中出现异常则返回null。
+     */
+    public String 执行OCR(String 处理后图像路径) {
+        // 创建一个Tesseract对象，用于与Tesseract OCR引擎进行交互。
+        Tesseract tesseract = new Tesseract();
+
+        try {
+            // 设置Tesseract数据目录的路径，该目录包含OCR所需的语言训练数据。
+            tesseract.setDatapath(this.获取OCR数据路径());
+
+            // 设置OCR使用的语言为中文简体。
+            tesseract.setLanguage(this.模型语言);
+
+            // 对处理后的图像文件执行OCR操作，将识别结果存储在result变量中。
+            String 识别结果 = tesseract.doOCR(new File(处理后图像路径));
+
+            return 识别结果;
+        } catch (TesseractException e) {
+            日志记录器.错误("OCR识别出错: " + e.getMessage());
+            return null;
+        }
+    }
+
+    /**
+     * 自动获取系统中Tesseract OCR的训练数据路径
+     * 首先尝试通过which命令获取tesseract的安装位置
+     * 如果找到则返回对应的tessdata目录
+     * 如果未找到则返回Mac系统上Homebrew默认的tessdata路径
+     * 
+     * @return Tesseract训练数据的完整路径
+     */
+    @SuppressWarnings("deprecation")
+    private String 获取OCR数据路径() {
+        try {
+            // 执行which命令查找tesseract的安装位置
+            Process 进程 = Runtime.getRuntime().exec("which tesseract");
+            java.io.BufferedReader 读取器 = new java.io.BufferedReader(
+                    new java.io.InputStreamReader(进程.getInputStream()));
+            String 路径 = 读取器.readLine();
+            // 如果找到tesseract，返回其父目录下的share/tessdata
+            // 否则返回Mac上Homebrew的默认tessdata路径
+            return 路径 != null ? new File(路径).getParent() + "/share/tessdata" : "/opt/homebrew/share/tessdata";
+        } catch (java.io.IOException 异常) {
+            // 如果发生异常，返回Mac上Homebrew的默认tessdata路径
+            return "/opt/homebrew/share/tessdata";
+        }
     }
 }

@@ -11,7 +11,7 @@ public class 日志记录器 {
     }
 
     public static void 错误(String 消息) {
-        System.out.println(错误表情 + " " + 消息);
+        System.err.println(错误表情 + " " + 消息);
     }
 
     public static void 成功(String 消息) {
