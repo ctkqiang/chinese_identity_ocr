@@ -78,7 +78,7 @@ public class 中华人民共和国居民身份证_OCR_识别与图像处理系�
              * 定义输入的身份证图像文件的路径。
              */
             try (Scanner 扫描器 = new Scanner(System.in)) {
-                System.out.print("请输入身份证图像路径: ");
+                日志记录器.信息("请输入身份证图像路径: ");
                 图像路径 = 扫描器.nextLine().trim();
             }
 
