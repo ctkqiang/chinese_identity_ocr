@@ -49,28 +49,36 @@ public class 身份证处理模型 {
      * @return 处理后的图像文件的存储路径，如果图像读取失败则返回null。
      */
     public String 处理图像(@NotNull String 图像路径) {
-        // 利用OpenCV的Imgcodecs.imread方法从指定路径读取图像。
-        // 若图像读取失败，将返回一个空的Mat对象。
+        /**
+         * 利用OpenCV的Imgcodecs.imread方法从指定路径读取图像。
+         * 若图像读取失败，将返回一个空的Mat对象。
+         */
         Mat 图像 = Imgcodecs.imread(图像路径);
 
-        // 检查读取的图像是否为空，若为空则输出错误信息并返回null。
+        /** 检查读取的图像是否为空，若为空则输出错误信息并返回null。 */
         if (图像.empty()) {
             日志记录器.警告("无法打开或找到指定图像");
             return null;
         }
 
-        // 将彩色图像转换为灰度图像。
-        // 灰度图像只有一个通道，能简化后续的图像处理步骤。
+        /**
+         * 将彩色图像转换为灰度图像。
+         * 灰度图像只有一个通道，能简化后续的图像处理步骤。
+         */
         Mat 灰度图像 = new Mat();
         Imgproc.cvtColor(图像, 灰度图像, Imgproc.COLOR_BGR2GRAY);
 
-        // 对灰度图像应用高斯模糊。
-        // 高斯模糊通过平滑图像来减少噪声，参数Size(5, 5)指定了高斯核的大小，0表示标准差。
+        /**
+         * 对灰度图像应用高斯模糊。
+         * 高斯模糊通过平滑图像来减少噪声，参数Size(5, 5)指定了高斯核的大小，0表示标准差。
+         */
         Mat 模糊图像 = new Mat();
         Imgproc.GaussianBlur(灰度图像, 模糊图像, new Size(0x5, 0x5), 0x0);
 
-        // 对模糊后的图像应用Otsu阈值处理。
-        // Otsu方法会自动确定最佳的阈值，将图像中的前景（文本）和背景分离，增强文本的可见性。
+        /**
+         * 对模糊后的图像应用Otsu阈值处理。
+         * Otsu方法会自动确定最佳的阈值，将图像中的前景（文本）和背景分离，增强文本的可见性。
+         */
         Mat 二值化图像 = new Mat();
         Imgproc.threshold(模糊图像, 二值化图像, 0x0, 0xFF, Imgproc.THRESH_BINARY + Imgproc.THRESH_OTSU);
 
@@ -80,30 +88,34 @@ public class 身份证处理模型 {
             return null;
         }
 
-        // 使用OpenCV的Imgcodecs.imwrite方法将处理后的图像保存到指定路径。
+        /**
+         * 使用OpenCV的Imgcodecs.imwrite方法将处理后的图像保存到指定路径。
+         */
         Imgcodecs.imwrite(处理后图像路径, 二值化图像);
 
         return 处理后图像路径;
     }
 
-    /**
-     * 该方法使用Tesseract库对处理后的图像进行光学字符识别（OCR）操作。
-     * 
-     * @param 处理后图像路径 处理后的身份证图像文件的存储路径。
-     * @return 从图像中识别出的文本内容，如果识别过程中出现异常则返回null。
-     */
     public String 执行OCR(String 处理后图像路径) {
-        // 创建一个Tesseract对象，用于与Tesseract OCR引擎进行交互。
+        /**
+         * 创建一个Tesseract对象，用于与Tesseract OCR引擎进行交互。
+         */
         Tesseract tesseract = new Tesseract();
 
         try {
-            // 设置Tesseract数据目录的路径，该目录包含OCR所需的语言训练数据。
+            /**
+             * 设置Tesseract数据目录的路径，该目录包含OCR所需的语言训练数据。
+             */
             tesseract.setDatapath(this.获取OCR数据路径());
 
-            // 设置OCR使用的语言为中文简体。
+            /**
+             * 设置OCR使用的语言为中文简体。
+             */
             tesseract.setLanguage(this.模型语言);
 
-            // 对处理后的图像文件执行OCR操作，将识别结果存储在result变量中。
+            /**
+             * 对处理后的图像文件执行OCR操作，将识别结果存储在result变量中。
+             */
             String 识别结果 = tesseract.doOCR(new File(处理后图像路径));
 
             return 识别结果;
@@ -113,27 +125,25 @@ public class 身份证处理模型 {
         }
     }
 
-    /**
-     * 自动获取系统中Tesseract OCR的训练数据路径
-     * 首先尝试通过which命令获取tesseract的安装位置
-     * 如果找到则返回对应的tessdata目录
-     * 如果未找到则返回Mac系统上Homebrew默认的tessdata路径
-     * 
-     * @return Tesseract训练数据的完整路径
-     */
     @SuppressWarnings("deprecation")
     private String 获取OCR数据路径() {
         try {
-            // 执行which命令查找tesseract的安装位置
+            /**
+             * 执行which命令查找tesseract的安装位置
+             */
             Process 进程 = Runtime.getRuntime().exec("which tesseract");
             java.io.BufferedReader 读取器 = new java.io.BufferedReader(
                     new java.io.InputStreamReader(进程.getInputStream()));
             String 路径 = 读取器.readLine();
-            // 如果找到tesseract，返回其父目录下的share/tessdata
-            // 否则返回Mac上Homebrew的默认tessdata路径
+            /**
+             * 如果找到tesseract，返回其父目录下的share/tessdata
+             * 否则返回Mac上Homebrew的默认tessdata路径
+             */
             return 路径 != null ? new File(路径).getParent() + "/share/tessdata" : "/opt/homebrew/share/tessdata";
         } catch (java.io.IOException 异常) {
-            // 如果发生异常，返回Mac上Homebrew的默认tessdata路径
+            /**
+             * 如果发生异常，返回Mac上Homebrew的默认tessdata路径
+             */
             return "/opt/homebrew/share/tessdata";
         }
     }
