@@ -142,7 +142,7 @@ I'll improve the mathematical explanation of the ID card validation algorithm in
 2. **取模运算**
    计算校验值 Y：
 
-  ```math
+  ```
   Y = S \bmod 11
   ```
 
@@ -158,7 +158,7 @@ I'll improve the mathematical explanation of the ID card validation algorithm in
 以身份证号 `110101199003077734` 为例：
 
 1. **加权求和计算**
-```math
+```
 1×7 + 1×9 + 0×10 + 1×5 + 0×8 + 1×4 + 1×2 + 9×1 +
 9×6 + 0×3 + 0×7 + 3×9 + 0×10 + 7×5 + 7×8 + 7×4 + 3×2
 = 7 + 9 + 0 + 5 + 0 + 4 + 2 + 9 +
@@ -167,14 +167,14 @@ I'll improve the mathematical explanation of the ID card validation algorithm in
 ```
 
 2. **取模运算**
-```math
+```
 242 ÷ 11 = 22 余 0;
 Y = 0
 
 ```
 
 3. **查表获得校验码**
-```math
+```
 Y = 0 对应校验码 '1'
 ```
 
@@ -197,6 +197,20 @@ Y = 0 对应校验码 '1'
 - 运算过程简单，易于编程实现
 - 计算量小，适合实时验证
 - 具有良好的容错性能
+
+## 项目文档
+
+<div align="center" style="margin: 20px 0">
+  <a href="docs/apidocs/allclasses.html" target="_blank">
+    <img src="https://img.shields.io/badge/API文档-JavaDoc-007396?style=for-the-badge&logo=java&logoColor=white">
+  </a>
+</div>
+
+完整的 API 文档可在以下位置查看：
+
+- [本地文档](docs/apidocs/allclasses.html)
+- [在线文档](https://ctkqiang.github.io/chinese_identity_ocr/apidocs/allclasses.html)
+
 
 ## 许可证
 
