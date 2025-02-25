@@ -97,25 +97,12 @@ public class 身份证处理模型 {
     }
 
     public String 执行OCR(String 处理后图像路径) {
-        /**
-         * 创建一个Tesseract对象，用于与Tesseract OCR引擎进行交互。
-         */
         Tesseract tesseract = new Tesseract();
 
         try {
-            /**
-             * 设置Tesseract数据目录的路径，该目录包含OCR所需的语言训练数据。
-             */
-            tesseract.setDatapath(this.获取OCR数据路径());
+            tesseract.setDatapath("/opt/homebrew/share/tessdata");
 
-            /**
-             * 设置OCR使用的语言为中文简体。
-             */
             tesseract.setLanguage(this.模型语言);
-
-            /**
-             * 对处理后的图像文件执行OCR操作，将识别结果存储在result变量中。
-             */
             String 识别结果 = tesseract.doOCR(new File(处理后图像路径));
 
             return 识别结果;
@@ -125,7 +112,7 @@ public class 身份证处理模型 {
         }
     }
 
-    @SuppressWarnings("deprecation")
+    @SuppressWarnings({ "deprecation", "unused" })
     private String 获取OCR数据路径() {
         try {
             /**
