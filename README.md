@@ -142,7 +142,7 @@ I'll improve the mathematical explanation of the ID card validation algorithm in
 2. **取模运算**
    计算校验值 Y：
 
-  ```math
+  ```
   Y = S \bmod 11
   ```
 
@@ -158,7 +158,7 @@ I'll improve the mathematical explanation of the ID card validation algorithm in
 以身份证号 `110101199003077734` 为例：
 
 1. **加权求和计算**
-```math
+```
 1×7 + 1×9 + 0×10 + 1×5 + 0×8 + 1×4 + 1×2 + 9×1 +
 9×6 + 0×3 + 0×7 + 3×9 + 0×10 + 7×5 + 7×8 + 7×4 + 3×2
 = 7 + 9 + 0 + 5 + 0 + 4 + 2 + 9 +
@@ -167,14 +167,14 @@ I'll improve the mathematical explanation of the ID card validation algorithm in
 ```
 
 2. **取模运算**
-```math
+```
 242 ÷ 11 = 22 余 0;
 Y = 0
 
 ```
 
 3. **查表获得校验码**
-```math
+```
 Y = 0 对应校验码 '1'
 ```
 
