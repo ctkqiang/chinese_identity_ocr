@@ -1,0 +1,58 @@
+@startuml 中华人民共和国居民身份证OCR识别系统
+
+skinparam ParticipantPadding 20
+skinparam BoxPadding 10
+skinparam SequenceGroupBodyBackgroundColor transparent
+
+actor User
+participant "主系统" as Main
+participant "控制器" as Controller
+participant "模型" as Model
+participant "视图" as View
+participant "OpenCV" as OpenCV
+participant "Tesseract" as Tesseract
+database "日志" as Logger
+
+box "系统初始化" #LightBlue
+    User -> Main: 启动系统
+    activate Main
+    Main -> OpenCV: 加载OpenCV库
+    Main -> Tesseract: 设置Tesseract路径
+    Main -> Logger: 记录初始化信息
+    Main -> Controller: 创建控制器实例
+    Controller -> Model: 创建模型实例
+    Controller -> View: 创建视图实例
+end box
+
+box "图像处理流程" #LightYellow
+    User -> Main: 输入身份证图像路径
+    Main -> Controller: 处理并显示结果(图像路径)
+    activate Controller
+    
+    Controller -> Model: 处理图像(图像路径)
+    activate Model
+    Model -> OpenCV: 图像预处理
+    OpenCV --> Model: 返回处理后图像
+    Model -> Tesseract: OCR识别
+    Tesseract --> Model: 返回识别文本
+    Model --> Controller: 返回处理结果
+    deactivate Model
+    
+    Controller -> Controller: 解析OCR结果
+    Controller -> Controller: 验证身份证号码
+    
+    Controller -> View: 显示识别结果
+    activate View
+    View --> User: 展示结果
+    deactivate View
+    
+    Controller -> Logger: 记录处理日志
+    deactivate Controller
+end box
+
+box "错误处理" #LightPink
+    Main -> Logger: 记录异常信息
+    Logger --> User: 显示错误信息
+end box
+
+@enduml
