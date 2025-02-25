@@ -1,1 +1,0 @@
-typeSearchIndex = [{"l":"All Classes","url":"allclasses-index.html"},{"p":"xin.ctkqiang","l":"中华人民共和国居民身份证_OCR_识别与图像处理系统"},{"p":"xin.ctkqiang.控制器","l":"日志记录器"},{"p":"xin.ctkqiang.控制器","l":"身份证处理控制器"},{"p":"xin.ctkqiang.模型","l":"身份证处理模型"},{"p":"xin.ctkqiang.视图","l":"身份证识别结果视图"}]
