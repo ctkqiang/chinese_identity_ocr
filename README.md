@@ -198,6 +198,20 @@ Y = 0 对应校验码 '1'
 - 计算量小，适合实时验证
 - 具有良好的容错性能
 
+## 项目文档
+
+<div align="center" style="margin: 20px 0">
+  <a href="docs/apidocs/allclasses.html" target="_blank">
+    <img src="https://img.shields.io/badge/API文档-JavaDoc-007396?style=for-the-badge&logo=java&logoColor=white">
+  </a>
+</div>
+
+完整的 API 文档可在以下位置查看：
+
+- [本地文档](docs/apidocs/allclasses.html)
+- [在线文档](https://ctkqiang.github.io/chinese_identity_ocr/apidocs/allclasses.html)
+
+
 ## 许可证
 
 本项目采用 **木兰宽松许可证 (Mulan PSL)** 进行许可。  
