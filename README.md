@@ -111,8 +111,8 @@ mvn exec:java \
 💡 Tesseract数据路径: /opt/homebrew/share/tessdata
 💡 中华人民共和国居民身份证_OCR_识别与图像处理系统启动！
 💡 请输入身份证图像路径:
-'/Users/johnmelodyme/Documents/上饶满星科技有限公司/chinese_identity_ocr/assets/test_images/9333812.png'
-💡 创建临时文件/Users/johnmelodyme/Documents/上饶满星科技有限公司/chinese_identity_ocr/temp/processed_1740501259703.jpg
+'/Users/ctkqiang/Documents/上饶满星科技有限公司/chinese_identity_ocr/assets/test_images/9333812.png'
+💡 创建临时文件/Users/ctkqiang/Documents/上饶满星科技有限公司/chinese_identity_ocr/temp/processed_1740501259703.jpg
 💡 清理后的 OCR 结果: [识别结果文本]
 💡 OCR识别结果: 911124198108035002
 💡 OCR识别结果: 非法
