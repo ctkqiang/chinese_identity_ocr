@@ -1,0 +1,1 @@
+packageSearchIndex = [{"l":"All Packages","url":"allpackages-index.html"},{"l":"xin.ctkqiang"},{"l":"xin.ctkqiang.控制器"},{"l":"xin.ctkqiang.模型"},{"l":"xin.ctkqiang.视图"}]
