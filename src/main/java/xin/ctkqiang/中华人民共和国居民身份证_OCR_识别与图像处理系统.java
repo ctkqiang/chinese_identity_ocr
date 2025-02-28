@@ -29,6 +29,11 @@ import xin.ctkqiang.视图.身份证识别结果视图;
  * @since 2025年2月26日
  */
 public class 中华人民共和国居民身份证_OCR_识别与图像处理系统 {
+    /**
+     * 系统运行环境标志。
+     * true: 表示系统运行在生产环境中，将执行正常的身份证识别流程
+     * false: 表示系统运行在测试环境中，将执行预设的测试用例
+     */
     private static final boolean 是否为生产环境 = true;
 
     /**
