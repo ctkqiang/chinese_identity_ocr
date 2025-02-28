@@ -8,8 +8,7 @@ import xin.ctkqiang.模型.身份证处理模型;
 import xin.ctkqiang.视图.身份证识别结果视图;
 
 /**
- * 
- * 版权：Copyright © 2025 @ctkqiang , Inc. All rights reserved.
+ * 版权：Copyright © 2025 @ctkqiang
  * 描述：该类是中华人民共和国居民身份证 OCR 识别与图像处理系统的核心入口类。
  * 它采用单例模式确保系统全局只有一个实例，避免资源的重复初始化和浪费。
  * 系统的主要功能是对身份证图像进行处理和 OCR 识别，并验证识别出的身份证号码的合法性。
