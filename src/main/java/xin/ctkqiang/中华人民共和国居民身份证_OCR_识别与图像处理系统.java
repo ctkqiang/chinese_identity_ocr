@@ -29,7 +29,7 @@ import xin.ctkqiang.视图.身份证识别结果视图;
  * @since 2025年2月26日
  */
 public class 中华人民共和国居民身份证_OCR_识别与图像处理系统 {
-    private static final boolean 是否为生产环境 = false;
+    private static final boolean 是否为生产环境 = true;
     /**
      * @object 模型: 创建身份证处理模型对象。
      *         该模型对象负责处理身份证图像，包括图像的预处理、特征提取等操作，
