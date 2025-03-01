@@ -2,7 +2,11 @@
 
 skinparam ParticipantPadding 20
 skinparam BoxPadding 10
-skinparam SequenceGroupBodyBackgroundColor transparent
+skinparam SequenceGroupBodyBackgroundColor white
+skinparam ParticipantFontStyle bold
+skinparam BoxFontStyle bold
+
+!theme aws-orange
 
 actor User
 participant "主系统" as Main
@@ -12,16 +16,34 @@ participant "视图" as View
 participant "OpenCV" as OpenCV
 participant "Tesseract" as Tesseract
 database "日志" as Logger
+database "临时文件" as TempFiles
 
-box "系统初始化" #LightBlue
+box "系统初始化阶段" #LightBlue
     User -> Main: 启动系统
     activate Main
+    
     Main -> OpenCV: 加载OpenCV库
-    Main -> Tesseract: 设置Tesseract路径
-    Main -> Logger: 记录初始化信息
+    activate OpenCV
+    OpenCV --> Main: 返回加载状态
+    deactivate OpenCV
+    
+    Main -> Tesseract: 初始化OCR引擎
+    activate Tesseract
+    Tesseract -> Tesseract: 设置中文识别模型
+    Tesseract --> Main: 返回初始化状态
+    deactivate Tesseract
+    
+    Main -> Logger: 初始化日志系统
+    activate Logger
+    Logger --> Main: 确认日志就绪
+    deactivate Logger
+    
     Main -> Controller: 创建控制器实例
+    activate Controller
     Controller -> Model: 创建模型实例
     Controller -> View: 创建视图实例
+    Controller --> Main: 初始化完成
+    deactivate Controller
 end box
 
 box "图像处理流程" #LightYellow
@@ -31,10 +53,31 @@ box "图像处理流程" #LightYellow
     
     Controller -> Model: 处理图像(图像路径)
     activate Model
-    Model -> OpenCV: 图像预处理
-    OpenCV --> Model: 返回处理后图像
-    Model -> Tesseract: OCR识别
+    
+    Model -> OpenCV: 读取图像
+    activate OpenCV
+    OpenCV --> Model: 返回图像矩阵
+    
+    Model -> OpenCV: 转换为灰度图像
+    OpenCV --> Model: 返回灰度图像
+    
+    Model -> OpenCV: 应用高斯模糊
+    OpenCV --> Model: 返回模糊图像
+    
+    Model -> OpenCV: Otsu二值化处理
+    OpenCV --> Model: 返回二值化图像
+    deactivate OpenCV
+    
+    Model -> TempFiles: 保存处理后图像
+    activate TempFiles
+    TempFiles --> Model: 返回临时文件路径
+    deactivate TempFiles
+    
+    Model -> Tesseract: OCR识别(处理后图像)
+    activate Tesseract
     Tesseract --> Model: 返回识别文本
+    deactivate Tesseract
+    
     Model --> Controller: 返回处理结果
     deactivate Model
     
@@ -43,16 +86,30 @@ box "图像处理流程" #LightYellow
     
     Controller -> View: 显示识别结果
     activate View
+    View -> View: 格式化显示信息
     View --> User: 展示结果
     deactivate View
     
     Controller -> Logger: 记录处理日志
+    activate Logger
+    Logger --> Controller: 确认日志记录
+    deactivate Logger
+    
+    Controller -> TempFiles: 清理临时文件
+    activate TempFiles
+    TempFiles --> Controller: 清理完成
+    deactivate TempFiles
+    
     deactivate Controller
 end box
 
-box "错误处理" #LightPink
+box "错误处理流程" #LightPink
     Main -> Logger: 记录异常信息
-    Logger --> User: 显示错误信息
+    activate Logger
+    Logger -> View: 传递错误信息
+    View --> User: 显示错误提示
+    Logger --> Main: 确认错误已记录
+    deactivate Logger
 end box
 
 @enduml

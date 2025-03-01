@@ -25,9 +25,9 @@ public class 身份证处理模型 {
      * @param 图像路径 输入的身份证图像文件的存储路径。
      * @return 处理后的图像文件的存储路径，如果图像读取失败则返回null。
      */
-    private String 创建临时文件(@NotNull String 文件前缀) {
-        String 临时文件夹路径 = System.getProperty("user.dir") + File.separator + "temp";
-        File 临时目录 = new File(临时文件夹路径);
+    private final String 创建临时文件(@NotNull String 文件前缀) {
+        final String 临时文件夹路径 = System.getProperty("user.dir") + File.separator + "temp";
+        final File 临时目录 = new File(临时文件夹路径);
 
         if (!临时目录.exists() && !临时目录.mkdirs()) {
             日志记录器.错误("无法创建临时文件夹：" + 临时文件夹路径);
