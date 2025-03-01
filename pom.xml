@@ -90,23 +90,27 @@
                     <target>${maven.compiler.target}</target>
                 </configuration>
             </plugin>
-            <!-- Maven 组装插件，用于创建包含所有依赖的可执行 JAR 文件 -->
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-assembly-plugin</artifactId>
                 <version>3.6.0</version>
                 <configuration>
+                    <finalName>chinese-identity-ocr</finalName>
+                    <appendAssemblyId>false</appendAssemblyId>
                     <descriptorRefs>
                         <descriptorRef>jar-with-dependencies</descriptorRef>
                     </descriptorRefs>
                     <archive>
                         <manifest>
                             <mainClass>xin.ctkqiang.中华人民共和国居民身份证_OCR_识别与图像处理系统</mainClass>
+                            <addClasspath>true</addClasspath>
                         </manifest>
                     </archive>
                 </configuration>
                 <executions>
                     <execution>
+                        <id>make-assembly</id>
                         <phase>package</phase>
                         <goals>
                             <goal>single</goal>
@@ -114,6 +118,7 @@
                     </execution>
                 </executions>
             </plugin>
+            
         </plugins>
     </build>
 </project>

@@ -102,6 +102,7 @@ mvn exec:java \
   -Dexec.args="<图像路径>"
 ```
 
+
 ## 运行示例
 
 以下是系统运行的实际输出示例：
@@ -133,10 +134,6 @@ mvn exec:java \
 
 💡
 ✓ 测试完成
-
-```
-I'll improve the mathematical explanation of the ID card validation algorithm in the README.md:
-
 
 ## 身份证验证算法
 
